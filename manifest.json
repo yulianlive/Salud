@@ -3,7 +3,7 @@
   "name": "Mi App Offline",
   "icons": [
     {
-      "src": "icono.png",
+      "src": "./icono.png",
       "type": "image/png",
       "sizes": "192x192"
     }
