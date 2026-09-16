@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora SCORE2 ajustada para Colombia</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .volver { display: inline-block; padding: 10px 15px; background: #6c757d; color: white; text-decoration: none; border-radius: 5px; margin-bottom: 20px; }
+  </style>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #dbe3ee;
+      --accent: #0f5ea8;
+      --accent-soft: #eaf3fb;
+      --ok: #eaf8ef;
+      --ok-border: #cde7d6;
+      --warn: #8a5b00;
+      --warn-soft: #fff6df;
+      --warn-border: #f1de9a;
+      --shadow: 0 10px 24px rgba(15, 94, 168, 0.08);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    h1,h2,h3,p { margin-top: 0; }
+    .hero, .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero { padding: 26px; margin-bottom: 20px; }
+    .hero p { color: var(--muted); margin-bottom: 0; }
+    .pill {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 5px 9px;
+      border-radius: 999px;
+      margin-bottom: 8px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .card { padding: 20px; }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    label { font-size: 0.92rem; font-weight: 600; }
+    small, .muted { color: var(--muted); }
+    input, select {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      background: #fff;
+      color: var(--text);
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .primary { background: var(--accent); color: #fff; }
+    .secondary { background: #eef2f7; color: var(--text); }
+    .notice {
+      background: var(--warn-soft);
+      color: var(--warn);
+      border: 1px solid var(--warn-border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 0.9rem;
+      margin-top: 16px;
+    }
+    .okbox {
+      background: var(--ok);
+      border: 1px solid var(--ok-border);
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 0.92rem;
+      margin-top: 16px;
+    }
+    .result-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      background: linear-gradient(180deg, #fff 0%, #fbfdff 100%);
+    }
+    .numbers {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .metric {
+      border-radius: 14px;
+      padding: 14px;
+      background: var(--accent-soft);
+    }
+    .metric .label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .metric .value {
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+    .risk-tag {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #eef2f7;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .foot { margin-top: 12px; color: var(--muted); font-size: 0.82rem; }
+    ul { margin: 8px 0 0 18px; }
+    @media (max-width: 920px) {
+      .grid, .form-grid, .numbers { grid-template-columns: 1fr; }
+      .wrap { padding: 16px; }
+    }
+  </style>
+</head>
+<body>
+<a href="index.html" class="volver">⬅ Volver al Menú</a>
+
+  <div class="wrap">
+    <section class="hero">
+      <div class="pill">Versión final</div>
+      <h1>Calculadora SCORE2 ajustada para Colombia</h1>
+      <p>
+        Esta versión calcula únicamente SCORE2 y aplica el ajuste reportado por la validación externa en PURE-Colombia.
+        Para Colombia se usa por defecto la región SCORE2 de <strong>alto riesgo</strong>.
+      </p>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <h2>Datos de entrada</h2>
+        <div class="form-grid">
+          <div class="field">
+            <label for="age">Edad (años)</label>
+            <input id="age" type="number" min="40" max="69" step="1" value="50" />
+            <small>Rango de validación colombiana: 40 a 69 años.</small>
+          </div>
+
+          <div class="field">
+            <label for="sex">Sexo biológico</label>
+            <select id="sex">
+              <option value="female">Mujer</option>
+              <option value="male" selected>Hombre</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="smoker">Tabaquismo actual</label>
+            <select id="smoker">
+              <option value="0">No</option>
+              <option value="1">Sí</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="sbp">Presión arterial sistólica (mmHg)</label>
+            <input id="sbp" type="number" min="90" max="220" step="1" value="140" />
+          </div>
+
+          <div class="field">
+            <label for="tchol">Colesterol total (mg/dL)</label>
+            <input id="tchol" type="number" min="80" max="400" step="1" value="213" />
+            <small>Se convierte automáticamente a mmol/L.</small>
+          </div>
+
+          <div class="field">
+            <label for="hdl">Colesterol HDL (mg/dL)</label>
+            <input id="hdl" type="number" min="10" max="120" step="1" value="50" />
+          </div>
+
+          <div class="field">
+            <label for="diabetes">Diabetes</label>
+            <select id="diabetes">
+              <option value="0" selected>No</option>
+              <option value="1">Sí</option>
+            </select>
+            <small>El estudio principal de SCORE2 se aplicó sin diabetes, aunque PURE-Colombia hizo análisis de sensibilidad incluyéndola.</small>
+          </div>
+
+          <div class="field">
+            <label for="scoreRegion">Región SCORE2</label>
+            <select id="scoreRegion">
+              <option value="high" selected>Alto riesgo (recomendada para Colombia según el paper)</option>
+              <option value="moderate">Moderado</option>
+              <option value="low">Bajo</option>
+              <option value="very_high">Muy alto</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="calculateBtn">Calcular riesgo</button>
+          <button class="secondary" id="resetBtn">Restablecer ejemplo</button>
+        </div>
+
+        <div class="notice">
+          Herramienta de apoyo. No sustituye la valoración clínica integral ni debe usarse en personas con enfermedad cardiovascular establecida.
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Resultado</h2>
+        <div id="results"></div>
+
+        <div class="okbox">
+          <strong>Cómo se interpreta:</strong>
+          <ul>
+            <li><strong>Riesgo SCORE2:</strong> estimación del modelo SCORE2 con recalibración regional.</li>
+            <li><strong>Riesgo ajustado para Colombia:</strong> resultado anterior multiplicado por el factor PURE-Colombia.</li>
+            <li>Factor de ajuste reportado: <strong>0.75 en mujeres</strong> y <strong>0.61 en hombres</strong>.</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const els = {
+      age: document.getElementById('age'),
+      sex: document.getElementById('sex'),
+      smoker: document.getElementById('smoker'),
+      sbp: document.getElementById('sbp'),
+      tchol: document.getElementById('tchol'),
+      hdl: document.getElementById('hdl'),
+      diabetes: document.getElementById('diabetes'),
+      scoreRegion: document.getElementById('scoreRegion'),
+      results: document.getElementById('results'),
+      calculateBtn: document.getElementById('calculateBtn'),
+      resetBtn: document.getElementById('resetBtn')
+    };
+
+    const asNum = (x) => Number(x);
+    const clamp01 = (x) => Math.max(0, Math.min(1, x));
+    const pct = (x) => `${(x * 100).toFixed(1)}%`;
+
+    function getInputs() {
+      return {
+        age: asNum(els.age.value),
+        sex: els.sex.value,
+        smoker: asNum(els.smoker.value),
+        sbp: asNum(els.sbp.value),
+        tchol: asNum(els.tchol.value),
+        hdl: asNum(els.hdl.value),
+        diabetes: asNum(els.diabetes.value),
+        scoreRegion: els.scoreRegion.value
+      };
+    }
+
+    function mmolFromMgdlChol(mgdl) {
+      return mgdl / 38.67;
+    }
+
+    function score2Risk(i) {
+      const cage = (i.age - 60) / 5;
+      const csbp = (i.sbp - 120) / 20;
+      const tchol = mmolFromMgdlChol(i.tchol);
+      const hdl = mmolFromMgdlChol(i.hdl);
+      const ctchol = (tchol - 6) / 1;
+      const chdl = (hdl - 1.3) / 0.5;
+
+      let lp, baseline, scale1, scale2, correction;
+      if (i.sex === 'male') {
+        lp =
+          0.3742 * cage +
+          0.6012 * i.smoker +
+          0.2777 * csbp +
+          0.6457 * i.diabetes +
+          0.1458 * ctchol -
+          0.2698 * chdl -
+          0.0755 * cage * i.smoker -
+          0.0255 * cage * csbp -
+          0.0281 * cage * ctchol +
+          0.0426 * cage * chdl -
+          0.0983 * cage * i.diabetes;
+        baseline = 0.9605;
+        correction = 0.61;
+        ({ scale1, scale2 } = {
+          low: { scale1: -0.5699, scale2: 0.7476 },
+          moderate: { scale1: -0.1565, scale2: 0.8009 },
+          high: { scale1: 0.3207, scale2: 0.9360 },
+          very_high: { scale1: 0.5836, scale2: 0.8294 }
+        }[i.scoreRegion]);
+      } else {
+        lp =
+          0.4648 * cage +
+          0.7744 * i.smoker +
+          0.3131 * csbp +
+          0.8096 * i.diabetes +
+          0.1002 * ctchol -
+          0.2606 * chdl -
+          0.1088 * cage * i.smoker -
+          0.0277 * cage * csbp -
+          0.0226 * cage * ctchol +
+          0.0613 * cage * chdl -
+          0.1272 * cage * i.diabetes;
+        baseline = 0.9776;
+        correction = 0.75;
+        ({ scale1, scale2 } = {
+          low: { scale1: -0.7380, scale2: 0.7019 },
+          moderate: { scale1: -0.3143, scale2: 0.7701 },
+          high: { scale1: 0.5710, scale2: 0.9369 },
+          very_high: { scale1: 0.9412, scale2: 0.8329 }
+        }[i.scoreRegion]);
+      }
+
+      const raw = clamp01(1 - Math.pow(baseline, Math.exp(lp)));
+      const regional = clamp01(1 - Math.exp(-Math.exp(scale1 + scale2 * Math.log(-Math.log(1 - raw)))));
+      const adjusted = clamp01(regional * correction);
+      return { raw, regional, adjusted, correction };
+    }
+
+    function validate(i) {
+      const issues = [];
+      if (i.age < 40 || i.age > 69) issues.push('La edad está fuera del rango 40-69 usado en la validación colombiana.');
+      if (i.hdl >= i.tchol) issues.push('El HDL no puede ser igual o mayor que el colesterol total.');
+      if (i.sbp < 90 || i.sbp > 220) issues.push('La presión arterial sistólica parece fuera de un rango habitual de uso.');
+      return issues;
+    }
+
+    function classify(risk, age) {
+      const p = risk * 100;
+      if (age < 50) {
+        if (p < 2.5) return 'Bajo-moderado';
+        if (p < 7.5) return 'Alto';
+        return 'Muy alto';
+      }
+      if (age < 70) {
+        if (p < 5) return 'Bajo-moderado';
+        if (p < 10) return 'Alto';
+        return 'Muy alto';
+      }
+      if (p < 7.5) return 'Bajo-moderado';
+      if (p < 15) return 'Alto';
+      return 'Muy alto';
+    }
+
+    function render() {
+      const i = getInputs();
+      const issues = validate(i);
+      const r = score2Risk(i);
+      const category = classify(r.adjusted, i.age);
+
+      let html = '';
+      if (issues.length) {
+        html += `<div class="notice">${issues.map(x => `- ${x}`).join('<br>')}</div>`;
+      }
+
+      html += `
+        <div class="result-card">
+          <h3>SCORE2</h3>
+          <div class="numbers">
+            <div class="metric">
+              <div class="label">Riesgo SCORE2</div>
+              <div class="value">${pct(r.regional)}</div>
+            </div>
+            <div class="metric">
+              <div class="label">Riesgo ajustado para Colombia</div>
+              <div class="value">${pct(r.adjusted)}</div>
+            </div>
+          </div>
+          <div class="risk-tag">Categoría orientativa: ${category}</div>
+          <div class="foot">
+            Factor de ajuste aplicado: × ${r.correction.toFixed(2)}.<br>
+            Para Colombia se recomienda usar la estimación ajustada PURE-Colombia como salida principal.
+          </div>
+        </div>
+      `;
+
+      els.results.innerHTML = html;
+    }
+
+    function reset() {
+      els.age.value = 50;
+      els.sex.value = 'male';
+      els.smoker.value = 0;
+      els.sbp.value = 140;
+      els.tchol.value = 213;
+      els.hdl.value = 50;
+      els.diabetes.value = 0;
+      els.scoreRegion.value = 'high';
+      render();
+    }
+
+    els.calculateBtn.addEventListener('click', render);
+    els.resetBtn.addEventListener('click', reset);
+    render();
+  </script>
+</body>
+</html>
