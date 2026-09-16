@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú Principal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f9;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 30px;
+    }
+    .btn {
+      display: block;
+      padding: 15px 20px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .btn:active {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Contenido Offline</h1>
+
+  <div class="menu">
+    <a href="pagina1.html" class="btn">📄 Ver Página 1</a>
+    <a href="pagina2.html" class="btn">📄 Ver Página 2</a>
+  </div>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js')
+      .then(() => console.log('Service Worker listo'))
+      .catch((err) => console.error('Error:', err));
+  }
+</script>
+</body>
+</html>
