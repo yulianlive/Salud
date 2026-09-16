@@ -1,6 +1,6 @@
 {
-  "short_name": "MiApp",
-  "name": "Mi App Offline",
+  "short_name": "Salud",
+  "name": "Salud",
   "icons": [
     {
       "src": "./icono.png",

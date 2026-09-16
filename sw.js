@@ -2,8 +2,7 @@ const CACHE_NAME = 'salud-cache-v1';
 const ASSETS = [
   './',
   './index.html',
-  './pagina1.html',
-  './pagina2.html',
+  './SCORE2.html',
   './manifest.json',
   './icono.png'
 ];
